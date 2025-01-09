@@ -1,3 +1,10 @@
+<?php
+
+include("connect.php");
+
+$users = $pdo->query("SELECT * FROM users");
+$products = $pdo->query("SELECT * FROM products");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,25 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
-    <style>
-        .container {
-            display: flex;
-            width: 100%;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        td, th {
-            border: 1px solid black;
-            padding: 10px;
-            margin: 0px;
-        }
-        table {
-            border-collapse: collapse;
-            margin: 10px;
-            width: 50%;
-        }
-    </style>
     <title>Admin</title>
 </head>
 
@@ -49,11 +37,31 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>CreationDate</th>
+                <th>Creation date</th>
                 <th>E-mail</th>
-                <th>Permissions</th>
+                <th>Permission level</th>
                 <th>Remove</th>
             </tr>
+            <?php
+            foreach ($users as $user) {
+                ?>
+                <tr>
+                    <td><?=$user["id"]?></td>
+                    <td><?=$user["name"]?></td>
+                    <td><?=$user["creation_date"]?></td>
+                    <td><?=$user["email"]?></td>
+                    <td>
+                        <select name="permission" id="permission" onchange='changePermission(<?=$user["id"]?>)' value="<?=$user["permission_level"]?>">
+                            <option value="1">User</option>
+                            <option value="2">Seller</option>
+                            <option value="3">Admin</option>
+                        </select>
+                    </td>
+                    <td><button onclick='removeUser(<?=$user["id"]?>)'>Remove</button></td>
+                </tr>
+                <?php
+            }
+            ?>
         </table>
         <table>
             <tr>
@@ -62,12 +70,28 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>CreationDate</th>
+                <th>Creation date</th>
                 <th>Made by</th>
                 <th>Price</th>
                 <th>Edit</th>
                 <th>Remove</th>
             </tr>
+            <?php
+            foreach ($products as $product) {
+                ?>
+                <tr>
+                    <td><?=$product["id"]?></td>
+                    <td><?=$product["name"]?></td>
+                    <td><?=$product["description"]?></td>
+                    <td><?=$product["creation_date"]?></td>
+                    <td><?=$product["Made_by"]?></td>
+                    <td><?=$product["Price"]?></td>
+                    <td><button onclick='editProduct(<?=$product["id"]?>)'>Edit</button></td>
+                    <td><button onclick='removeProduct(<?=$product["id"]?>)'>Remove</button></td>
+                </tr>
+                <?php
+            }
+            ?>
         </table>
     </div>
 </body>

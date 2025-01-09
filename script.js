@@ -6,7 +6,6 @@ buttons.forEach(button => {
     console.log(button.getAttribute('href'));
     if(button.getAttribute('href') == window.location.href.split("/")[window.location.href.split("/").length - 1].split("?")[0]) {
         button.style.backgroundColor = 'gray';
-        button.style.boxShadow = '0px 0px 10px black';
     }
 });
 
@@ -69,3 +68,36 @@ colortheme.addEventListener('change', function() {
         sessionStorage.setItem("theme", "light");
     }
 });
+
+function changePermission(id) {
+    $.ajax({
+        type: "POST",
+        url: "data.php",
+        data: { function: "changepermission", id: id },
+        success: function(response) {
+            console.log(response);
+        }
+    });
+}
+
+function removeProduct(id) {
+    $.ajax({
+        type: "POST",
+        url: "data.php",
+        data: { function: "removeproduct", id: id },
+        success: function(response) {
+            console.log(response);
+        }
+    });
+}
+
+function removeUser(id) {
+    $.ajax({
+        type: "POST",
+        url: "data.php",
+        data: { function: "removeuser", id: id },
+        success: function(response) {
+            console.log(response);
+        }
+    });
+}
