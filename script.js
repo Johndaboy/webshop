@@ -5,7 +5,7 @@ buttons.forEach(button => {
     console.log(window.location.href);
     console.log(button.getAttribute('href'));
     if(button.getAttribute('href') == window.location.href.split("/")[window.location.href.split("/").length - 1].split("?")[0]) {
-        button.style.backgroundColor = 'gray';
+        button.style.textDecoration = 'underline';
     }
 });
 
