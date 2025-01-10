@@ -151,3 +151,12 @@ cart.addEventListener('click', function() {
         document.getElementsByTagName('aside')[0].style.display = 'flex';
     }
 });
+
+let login = document.getElementById('login');
+login.addEventListener('click', function() {
+    if(!sessionStorage.getItem("id")) {
+        alert("You are already logged in.");
+        return;
+    }
+    Storage.setItem("id", "1");
+});
