@@ -137,3 +137,17 @@ function removeUser(id) {
         }
     });
 }
+
+let cart = document.getElementById('cart');
+cart.addEventListener('click', function() {
+    if(!sessionStorage.getItem("id")) {
+        alert("You need to be logged in to view your cart.");
+        return;
+    }
+    if(document.getElementsByTagName('aside')[0].style.display == 'flex') {
+        document.getElementsByTagName('aside')[0].style.display = 'none';
+        return;
+    } else {
+        document.getElementsByTagName('aside')[0].style.display = 'flex';
+    }
+});
