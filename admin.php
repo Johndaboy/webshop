@@ -23,7 +23,7 @@ $products = $pdo->query("SELECT * FROM products");
             <input type="text" name="search" id="search" placeholder="Search">
             <a href="search.html">Search</a>
         </div>
-        <a href="portfolio.html">Contact</a>
+        <a href="https://johndaboy.github.io/Portfolio-Johan-Tol/">Contact</a>
         <select name="backgroundtheme" id="backgroundtheme">
             <option value="light">Light</option>
             <option value="dark">Dark</option>
