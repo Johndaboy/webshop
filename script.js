@@ -19,14 +19,50 @@ if(window.location.href.split("/")[window.location.href.split("/").length - 1].s
         search.value = window.location.href.split("?")[1].split("=")[1];
     } catch(e) {}
 
-    // $.ajax({
-    //     type: "POST",
-    //     url: "data.php",
-    //     data: { function: "getproducts" },
-    //     success: function(response) {
-    //         console.log(response);
-    //     }
-    // });
+    $.ajax({
+        type: "POST",
+        url: "data.php",
+        data: { function: "getproducts" },
+        success: function(response) {
+            let products = JSON.parse(response);
+            let searchresults = search.value;
+
+            for(let i = 0; i < products.length; i++) {
+                if(products[i].name.toLowerCase().includes(search.value.toLowerCase())) {
+                    let product = document.createElement('div');
+                    product.classList.add('productcard');
+                    let img = document.createElement('img');
+                    img.src = products[i].image;
+                    let name = document.createElement('h6');
+                    name.innerHTML = products[i].name;
+                    let price = document.createElement('p');
+                    price.innerHTML = "€" + products[i].price / 100;
+                    let button = document.createElement('button');
+                    button.innerHTML = 'Add to cart';
+                    button.addEventListener('click', function() {
+                        if(!sessionStorage.getItem("id")) {
+                            alert("You need to be logged in to add products to your cart.");
+                            return;
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "data.php",
+                            data: { function: "addtocart", id: products[i].id, userid: sessionStorage.getItem("id") },
+                            success: function(response) {
+                                console.log(response);
+                            }
+                        });
+                    });
+
+                    product.append(img);
+                    product.append(name);
+                    product.append(price);
+                    product.append(button);
+                    searchresults.append(product);
+                }
+            }
+        }
+    });
 }
 
 document.body.onkeydown = function(e) {

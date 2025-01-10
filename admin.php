@@ -13,6 +13,7 @@ $products = $pdo->query("SELECT * FROM products");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Admin</title>
 </head>
 
@@ -54,7 +55,6 @@ $products = $pdo->query("SELECT * FROM products");
                         <select name="permission" id="permission" onchange='changePermission(<?=$user["id"]?>)' value="<?=$user["permission_level"]?>">
                             <option value="1">User</option>
                             <option value="2">Seller</option>
-                            <option value="3">Admin</option>
                         </select>
                     </td>
                     <td><button onclick='removeUser(<?=$user["id"]?>)'>Remove</button></td>

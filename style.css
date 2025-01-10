@@ -13,6 +13,10 @@ nav {
     align-items: center;
 }
 
+aside {
+    display: none;
+}
+
 body {
     padding: 0px;
     margin: 0px;
@@ -20,7 +24,7 @@ body {
     color: var(--accent_color);
 }
 
-.search {
+.row {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -37,6 +41,10 @@ a {
     width: 100px;
     height: 50px;
     transition: transform 0.5s ease-in-out; 
+}
+
+svg path {
+    fill: var(--accent_color);
 }
 
 a:hover {
