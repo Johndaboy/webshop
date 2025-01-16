@@ -11,3 +11,4 @@ try {
     echo "Database connection failed: " . $e->getMessage();
     exit();
 }
+// this file is purely to connect to the database

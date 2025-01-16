@@ -119,6 +119,23 @@ colortheme.addEventListener('change', function() {
     }
 });
 
+// add product to database
+function addProduct() {
+    let name = document.getElementById('name').value;
+    let price = document.getElementById('price').value;
+    let image = document.getElementById('image').value;
+    let description = document.getElementById('description').value;
+
+    $.ajax({
+        type: "POST",
+        url: "data.php",
+        data: { function: "addproduct", name: name, price: price, image: image, userid: sessionStorage.getItem("id"), description, description },
+        success: function(response) {
+            console.log(response);
+        }
+    });
+}
+
 // change permission of a user
 function changePermission(id) {
     $.ajax({

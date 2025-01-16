@@ -9,17 +9,23 @@ switch($_POST["function"]) {
     case "getCart":
         echo json_encode(getCart($pdo));
         break;
-    case "addToCart":
-        echo json_encode(addToCart($pdo, $_POST["id"], $_POST["quantity"]));
-        break;
-    case "removeFromCart":
-        echo json_encode(removeFromCart($pdo, $_POST["id"]));
-        break;
     case "getUsers":
         echo json_encode(getUsers($pdo));
         break;
     case "login":
-        echo json_encode(login($pdo, $_POST["username"], $_POST["password"]));
+        echo login($pdo, $_POST["username"], $_POST["password"]);
+        break;
+    case "changePermission":
+        echo changePermission($pdo, $_POST["id"], $_POST["permission"]);
+        break;
+    case "addToCart":
+        echo addToCart($pdo, $_POST["id"], $_POST["quantity"]);
+        break;
+    case "removeFromCart":
+        echo removeFromCart($pdo, $_POST["id"]);
+        break;
+    case "removeUser":
+        echo removeUser($pdo, $_POST["id"]);
         break;
     default:
         break;
@@ -93,3 +99,49 @@ function login($pdo, $username, $password) {
     $pdo->close();
     return $response;
 }
+
+function changePermission($pdo, $id, $permission) {
+    $sql = "UPDATE users SET permission_level='$permission' WHERE id='$id'";
+    if ($pdo->query($sql) === TRUE) {
+        $response = array("status" => "success");
+    } else {
+        $response = array("status" => "error", "message" => $pdo->error);
+    }
+    $pdo->close();
+    return $response;
+}
+
+function removeUser($pdo, $id) {
+    $sql = "DELETE FROM users WHERE id='$id'";
+    if ($pdo->query($sql) === TRUE) {
+        $response = array("status" => "success");
+    } else {
+        $response = array("status" => "error", "message" => $pdo->error);
+    }
+    $pdo->close();
+    return $response;
+}
+
+function editProduct($pdo, $id, $name, $description, $price) {
+    $sql = "UPDATE products SET name='$name', description='$description', price='$price' WHERE id='$id'";
+    if ($pdo->query($sql) === TRUE) {
+        $response = array("status" => "success");
+    } else {
+        $response = array("status" => "error", "message" => $pdo->error);
+    }
+    $pdo->close();
+    return $response;
+}
+
+function removeProduct($pdo, $id) {
+    $sql = "DELETE FROM products WHERE id='$id'";
+    if ($pdo->query($sql) === TRUE) {
+        $response = array("status" => "success");
+    } else {
+        $response = array("status" => "error", "message" => $pdo->error);
+    }
+    $pdo->close();
+    return $response;
+}
+
+?>

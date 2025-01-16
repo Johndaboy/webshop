@@ -86,7 +86,6 @@ $products = $pdo->query("SELECT * FROM products");
                     <td><?=$product["creation_date"]?></td>
                     <td><?=$product["Made_by"]?></td>
                     <td><?=$product["Price"]?></td>
-                    <td><button onclick='editProduct(<?=$product["id"]?>)'>Edit</button></td>
                     <td><button onclick='removeProduct(<?=$product["id"]?>)'>Remove</button></td>
                 </tr>
                 <?php
