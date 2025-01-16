@@ -146,12 +146,12 @@ function removeUser(id) {
 }
 
 function getProductsInCart(id) {
-    $.ajax({
+    return $.ajax({
         type: "POST",
         url: "data.php",
         data: { function: "getproductcart", id: id },
         success: function(response) {
-            console.log(response);
+            return response;
         }
     });
 }
