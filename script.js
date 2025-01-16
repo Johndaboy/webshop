@@ -2,6 +2,7 @@ const buttons = document.querySelectorAll('a');
 const search = document.querySelector('input');
 const login = document.getElementById('login');
 
+// set underline to current page
 buttons.forEach(button => {
     console.log(window.location.href);
     console.log(button.getAttribute('href'));
@@ -10,17 +11,20 @@ buttons.forEach(button => {
     }
 });
 
+// set search value to url search value
 search.addEventListener('change', function() {
     console.log(search.value);
     window.location.href = 'search.html?search=' + search.value;
 });
 
+// change login text to logout if user is logged in and vice versa
 if(sessionStorage.getItem("id")) {
     login.innerHTML = 'Logout';
 } else {
     login.innerHTML = 'Login';
 }
 
+// show products that match the search value
 if(window.location.href.split("/")[window.location.href.split("/").length - 1].split("?")[0] == 'search.html') {
     try {
         search.value = window.location.href.split("?")[1].split("=")[1];
@@ -72,6 +76,7 @@ if(window.location.href.split("/")[window.location.href.split("/").length - 1].s
     });
 }
 
+// admin accessability
 document.body.onkeydown = function(e) {
     if (e.key == "Escape") {
         let admin = document.createElement('input');
@@ -90,6 +95,7 @@ document.body.onkeydown = function(e) {
 const cssvariables = document.querySelector(':root');
 const colortheme = document.getElementById('backgroundtheme');
 
+// set color theme
 if(sessionStorage.getItem("theme") == "dark") {
     colortheme.value = "dark";
     cssvariables.style.setProperty('--accent_color', 'white');
@@ -100,6 +106,7 @@ if(sessionStorage.getItem("theme") == "dark") {
     cssvariables.style.setProperty('--background_color', 'white');
 }
 
+// change color theme
 colortheme.addEventListener('change', function() {
     if(colortheme.value == 'dark') {
         cssvariables.style.setProperty('--accent_color', 'white');
@@ -112,6 +119,7 @@ colortheme.addEventListener('change', function() {
     }
 });
 
+// change permission of a user
 function changePermission(id) {
     $.ajax({
         type: "POST",
@@ -123,6 +131,7 @@ function changePermission(id) {
     });
 }
 
+// remove product from database
 function removeProduct(id) {
     $.ajax({
         type: "POST",
@@ -134,6 +143,7 @@ function removeProduct(id) {
     });
 }
 
+// remove user from database
 function removeUser(id) {
     $.ajax({
         type: "POST",
@@ -145,6 +155,7 @@ function removeUser(id) {
     });
 }
 
+// get products in cart
 function getProductsInCart(id) {
     return $.ajax({
         type: "POST",
@@ -156,6 +167,7 @@ function getProductsInCart(id) {
     });
 }
 
+// show cart
 let cart = document.getElementById('cart');
 cart.addEventListener('click', function() {
     if(!sessionStorage.getItem("id")) {
@@ -173,6 +185,7 @@ cart.addEventListener('click', function() {
     }
 });
 
+// login and logout
 login.addEventListener('click', function() {
     if(sessionStorage.getItem("id")) {
         sessionStorage.removeItem("id");
