@@ -1,5 +1,6 @@
 const buttons = document.querySelectorAll('a');
 const search = document.querySelector('input');
+const login = document.getElementById('login');
 
 buttons.forEach(button => {
     console.log(window.location.href);
@@ -13,6 +14,12 @@ search.addEventListener('change', function() {
     console.log(search.value);
     window.location.href = 'search.html?search=' + search.value;
 });
+
+if(sessionStorage.getItem("id")) {
+    login.innerHTML = 'Logout';
+} else {
+    login.innerHTML = 'Login';
+}
 
 if(window.location.href.split("/")[window.location.href.split("/").length - 1].split("?")[0] == 'search.html') {
     try {
@@ -146,17 +153,20 @@ cart.addEventListener('click', function() {
     }
     if(document.getElementsByTagName('aside')[0].style.display == 'flex') {
         document.getElementsByTagName('aside')[0].style.display = 'none';
+        document.getElementById('container').style.width = '100%';
         return;
     } else {
         document.getElementsByTagName('aside')[0].style.display = 'flex';
+        document.getElementById('container').style.width = '75%';
     }
 });
 
-let login = document.getElementById('login');
 login.addEventListener('click', function() {
-    if(!sessionStorage.getItem("id")) {
-        alert("You are already logged in.");
+    if(sessionStorage.getItem("id")) {
+        sessionStorage.removeItem("id");
+        login.innerHTML = 'Login';
         return;
     }
-    Storage.setItem("id", "1");
+    sessionStorage.setItem("id", "1");
+    login.innerHTML = 'Logout';
 });
