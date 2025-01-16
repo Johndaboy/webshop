@@ -145,6 +145,17 @@ function removeUser(id) {
     });
 }
 
+function getProductsInCart(id) {
+    $.ajax({
+        type: "POST",
+        url: "data.php",
+        data: { function: "getproductcart", id: id },
+        success: function(response) {
+            console.log(response);
+        }
+    });
+}
+
 let cart = document.getElementById('cart');
 cart.addEventListener('click', function() {
     if(!sessionStorage.getItem("id")) {
@@ -157,6 +168,7 @@ cart.addEventListener('click', function() {
         return;
     } else {
         document.getElementsByTagName('aside')[0].style.display = 'flex';
+        document.getElementsByTagName('aside')[0].innerHTML = getProductsInCart(sessionStorage.getItem("id"));
         document.getElementById('container').style.width = '75%';
     }
 });
