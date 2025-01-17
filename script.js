@@ -207,6 +207,8 @@ login.addEventListener('click', function() {
     if(sessionStorage.getItem("id")) {
         sessionStorage.removeItem("id");
         login.innerHTML = 'Login';
+        document.getElementsByTagName('aside')[0].style.display = 'none';
+        document.getElementById('container').style.width = '100%';
         return;
     }
     document.getElementsByTagName('aside')[0].style.display = 'flex';
@@ -255,6 +257,3 @@ login.addEventListener('click', function() {
         });
     });
 });
-
-sessionStorage.setItem("id", "1");
-login.innerHTML = 'Logout';
