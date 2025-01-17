@@ -15,6 +15,9 @@ switch($_POST["function"]) {
     case "login":
         echo login($pdo, $_POST["username"], $_POST["password"]);
         break;
+    case "register":
+        echo register($pdo, $_POST["username"], $_POST["password"]);
+        break;
     case "changePermission":
         echo changePermission($pdo, $_POST["id"], $_POST["permission"]);
         break;
@@ -92,9 +95,20 @@ function login($pdo, $username, $password) {
     $result = $pdo->query($sql);
 
     if ($result->num_rows > 0) {
+        $response = $result["id"];
+    } else {
+        $response = "false";
+    }
+    $pdo->close();
+    return $response;
+}
+
+function register($pdo, $username, $password) {
+    $sql = "INSERT INTO users (username, password, permission_level) VALUES ('$username', '$password', '0')";
+    if ($pdo->query($sql) === TRUE) {
         $response = array("status" => "success");
     } else {
-        $response = array("status" => "error", "message" => "Invalid credentials");
+        $response = array("status" => "error", "message" => $pdo->error);
     }
     $pdo->close();
     return $response;

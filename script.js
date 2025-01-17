@@ -209,6 +209,52 @@ login.addEventListener('click', function() {
         login.innerHTML = 'Login';
         return;
     }
-    sessionStorage.setItem("id", "1");
-    login.innerHTML = 'Logout';
+    document.getElementsByTagName('aside')[0].style.display = 'flex';
+    const loginform = document.createElement('form');
+    const username = document.createElement('input');
+    const password = document.createElement('input');
+    const submit = document.createElement('button');
+    const register = document.createElement('button');
+    register.innerHTML = 'Register';
+    username.placeholder = 'Username';
+    password.placeholder = 'Password';
+    password.type = 'password';
+    submit.innerHTML = 'Login';
+    loginform.append(username);
+    loginform.append(password);
+    loginform.append(submit);
+    loginform.append(register);
+    document.getElementsByTagName('aside')[0].innerHTML = '';
+    document.getElementsByTagName('aside')[0].append(loginform);
+    document.getElementById('container').style.width = '75%';
+    register.addEventListener('click', function() {
+        $.ajax({
+            type: "POST",
+            url: "data.php",
+            data: { function: "register", username: username.value, password: password.value },
+            success: function(response) {
+                console.log(response);
+            }
+        });
+    });
+    submit.addEventListener('click', function() {
+        $.ajax({
+            type: "POST",
+            url: "data.php",
+            data: { function: "login", username: username.value, password: password.value },
+            success: function(response) {
+                if(response != "false") {
+                    sessionStorage.setItem("id", response);
+                    login.innerHTML = 'Logout';
+                    document.getElementsByTagName('aside')[0].style.display = 'none';
+                    document.getElementById('container').style.width = '100%';
+                } else {
+                    alert("Username or password is incorrect.");
+                }
+            }
+        });
+    });
 });
+
+sessionStorage.setItem("id", "1");
+login.innerHTML = 'Logout';
