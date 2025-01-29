@@ -106,6 +106,7 @@ function login($pdo, $username, $password) {
 function register($pdo, $username, $password) {
     $sql = "INSERT INTO users (username, password, permission_level) VALUES ('$username', '$password', '0')";
     $stmt = $pdo->prepare($sql);
+    $stmt->execute();
     if ($stmt->execute() === TRUE) {
         $response = "success";
     } else {
