@@ -105,13 +105,12 @@ function login($pdo, $username, $password) {
 
 function register($pdo, $username, $password) {
     $sql = "INSERT INTO users (username, password, permission_level) VALUES ('$username', '$password', '0')";
-    
-    if ($pdo->query($sql) === TRUE) {
-        $response = array("status" => "success");
+    $stmt = $pdo->prepare($sql);
+    if ($stmt->execute() === TRUE) {
+        $response = "success";
     } else {
-        $response = array("status" => "error", "message" => $pdo->error);
+        $response = "error";
     }
-    $pdo->close();
     return $response;
 }
 
