@@ -2,7 +2,8 @@
 
 include("connect.php");
 
-switch($_POST["function"]) {
+echo "test";
+switch ($_POST["function"]) {
     case "getProducts":
         echo json_encode(getProducts($pdo));
         break;
@@ -34,19 +35,21 @@ switch($_POST["function"]) {
         break;
 }
 
-function getProducts($pdo) {
+function getProducts($pdo)
+{
     $sql = "SELECT * FROM products";
     $products = $pdo->query($sql);
     return $products;
 }
 
-function getCart($pdo) {
+function getCart($pdo)
+{
     $sql = "SELECT * FROM cart";
     $result = $pdo->query($sql);
 
     $cart = array();
     if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) {
             $cart[] = $row;
         }
     }
@@ -54,7 +57,8 @@ function getCart($pdo) {
     return $cart;
 }
 
-function addToCart($pdo, $id, $quantity) {
+function addToCart($pdo, $id, $quantity)
+{
     $sql = "INSERT INTO cart (product_id, quantity) VALUES ('$id', '$quantity')";
     if ($pdo->query($sql) === TRUE) {
         $response = array("status" => "success");
@@ -65,7 +69,8 @@ function addToCart($pdo, $id, $quantity) {
     return $response;
 }
 
-function removeFromCart($pdo, $id) {
+function removeFromCart($pdo, $id)
+{
     $sql = "DELETE FROM cart WHERE product_id='$id'";
     if ($pdo->query($sql) === TRUE) {
         $response = array("status" => "success");
@@ -76,13 +81,14 @@ function removeFromCart($pdo, $id) {
     return $response;
 }
 
-function getUsers($pdo) {
+function getUsers($pdo)
+{
     $sql = "SELECT * FROM users";
     $result = $pdo->query($sql);
 
     $users = array();
     if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) {
             $users[] = $row;
         }
     }
@@ -90,33 +96,34 @@ function getUsers($pdo) {
     return $users;
 }
 
-function login($pdo, $username, $password) {
-    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-    $result = $pdo->query($sql);
-
-    if ($result->num_rows > 0) {
-        $response = $result["id"];
+function login($pdo, $username, $password)
+{
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE name=:username AND password=:password");
+    $password = password_hash($password, PASSWORD_DEFAULT);
+    $stmt->bindParam(":username", $username);
+    $stmt->bindParam(":password", $password);
+    $query = $stmt->fetch();
+    if ($query) {
+        $response = $query["id"];
     } else {
         $response = "false";
     }
-    $pdo->close();
     return $response;
 }
 
-function register($pdo, $username, $password) {
-    $stmt = $pdo->prepare("INSERT INTO users (username, password, permission_level) VALUES (':username', ':password', '0')");
-    $stmt->bind_param("username", $username);
-    $stmt->bind_param("password", $password);
+function register($pdo, $username, $password)
+{
+    $stmt = $pdo->prepare("INSERT INTO users (name, password, permission_level) VALUES (:username, :password, '0')");
+    $password = password_hash($password, PASSWORD_DEFAULT);
+    $stmt->bindParam(":username", $username);
+    $stmt->bindParam(":password", $password);
     $stmt->execute();
-    if ($stmt->execute() === TRUE) {
-        $response = "success";
-    } else {
-        $response = "error";
-    }
+    $response = "success";
     return $response;
 }
 
-function changePermission($pdo, $id, $permission) {
+function changePermission($pdo, $id, $permission)
+{
     $sql = "UPDATE users SET permission_level='$permission' WHERE id='$id'";
     if ($pdo->query($sql) === TRUE) {
         $response = array("status" => "success");
@@ -127,7 +134,8 @@ function changePermission($pdo, $id, $permission) {
     return $response;
 }
 
-function removeUser($pdo, $id) {
+function removeUser($pdo, $id)
+{
     $sql = "DELETE FROM users WHERE id='$id'";
     if ($pdo->query($sql) === TRUE) {
         $response = array("status" => "success");
@@ -138,7 +146,8 @@ function removeUser($pdo, $id) {
     return $response;
 }
 
-function editProduct($pdo, $id, $name, $description, $price) {
+function editProduct($pdo, $id, $name, $description, $price)
+{
     $sql = "UPDATE products SET name='$name', description='$description', price='$price' WHERE id='$id'";
     if ($pdo->query($sql) === TRUE) {
         $response = array("status" => "success");
@@ -149,7 +158,8 @@ function editProduct($pdo, $id, $name, $description, $price) {
     return $response;
 }
 
-function removeProduct($pdo, $id) {
+function removeProduct($pdo, $id)
+{
     $sql = "DELETE FROM products WHERE id='$id'";
     if ($pdo->query($sql) === TRUE) {
         $response = array("status" => "success");
@@ -159,5 +169,3 @@ function removeProduct($pdo, $id) {
     $pdo->close();
     return $response;
 }
-
-?>

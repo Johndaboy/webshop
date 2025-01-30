@@ -217,11 +217,13 @@ login.addEventListener('click', function() {
     const password = document.createElement('input');
     const submit = document.createElement('button');
     const register = document.createElement('button');
-    register.innerHTML = 'Register';
+    register.innerText = 'Register';
+    register.type = 'button';
     username.placeholder = 'Username';
     password.placeholder = 'Password';
     password.type = 'password';
-    submit.innerHTML = 'Login';
+    submit.type = 'button';
+    submit.innerText = 'Login';
     loginform.append(username);
     loginform.append(password);
     loginform.append(submit);
