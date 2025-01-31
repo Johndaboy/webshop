@@ -232,29 +232,27 @@ login.addEventListener('click', function() {
     document.getElementsByTagName('aside')[0].append(loginform);
     document.getElementById('container').style.width = '75%';
     register.addEventListener('click', function() {
-        $.ajax({
-            type: "POST",
-            url: "data.php",
+        fetch('data.php', {
+            method: 'POST',
             data: { function: "register", username: username.value, password: password.value },
-            success: function(response) {
-                console.log(response);
-            }
+        })
+        .then(function(response) {
+            console.log(response);
         });
     });
     submit.addEventListener('click', function() {
-        $.ajax({
-            type: "POST",
-            url: "data.php",
+        fetch('data.php', {
+            method: 'POST',
             data: { function: "login", username: username.value, password: password.value },
-            success: function(response) {
-                if(response != "false") {
-                    sessionStorage.setItem("id", response);
-                    login.innerHTML = 'Logout';
-                    document.getElementsByTagName('aside')[0].style.display = 'none';
-                    document.getElementById('container').style.width = '100%';
-                } else {
-                    alert("Username or password is incorrect.");
-                }
+        })
+        .then(function(response) {
+            if(response != "false") {
+                sessionStorage.setItem("id", response);
+                login.innerHTML = 'Logout';
+                document.getElementsByTagName('aside')[0].style.display = 'none';
+                document.getElementById('container').style.width = '100%';
+            } else {
+                alert("Username or password is incorrect.");
             }
         });
     });

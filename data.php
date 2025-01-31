@@ -2,7 +2,6 @@
 
 include("connect.php");
 
-echo "test";
 switch ($_POST["function"]) {
     case "getProducts":
         echo json_encode(getProducts($pdo));

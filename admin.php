@@ -13,7 +13,6 @@ $products = $pdo->query("SELECT * FROM products");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Admin</title>
 </head>
 
