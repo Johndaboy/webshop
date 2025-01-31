@@ -125,62 +125,56 @@ function addProduct() {
     let price = document.getElementById('price').value;
     let image = document.getElementById('image').value;
     let description = document.getElementById('description').value;
-
-    $.ajax({
-        type: "POST",
-        url: "data.php",
-        data: { function: "addproduct", name: name, price: price, image: image, userid: sessionStorage.getItem("id"), description, description },
-        success: function(response) {
-            console.log(response);
-        }
+    fetch('data.php', {
+        method: 'POST',
+        data: { function: "addproduct", name: name, price: price, image: image, userid: sessionStorage.getItem("id"), description, description }
+    })
+    .then(function(response) {
+        return response;
     });
 }
 
 // change permission of a user
 function changePermission(id) {
-    $.ajax({
-        type: "POST",
-        url: "data.php",
-        data: { function: "changepermission", id: id },
-        success: function(response) {
-            console.log(response);
-        }
+    return fetch('data.php', {
+        method: 'POST',
+        data: { function: "changepermission", id: id }
+    })
+    .then(function(response) {
+        return response;
     });
 }
 
 // remove product from database
 function removeProduct(id) {
-    $.ajax({
-        type: "POST",
-        url: "data.php",
-        data: { function: "removeproduct", id: id },
-        success: function(response) {
-            console.log(response);
-        }
+    return fetch('data.php', {
+        method: 'POST',
+        data: { function: "removeproduct", id: id }
+    })
+    .then(function(response) {
+        return response;
     });
 }
 
 // remove user from database
 function removeUser(id) {
-    $.ajax({
-        type: "POST",
-        url: "data.php",
-        data: { function: "removeuser", id: id },
-        success: function(response) {
-            console.log(response);
-        }
+    return fetch('data.php', {
+        method: 'POST',
+        data: { function: "removeuser", id: id }
+    })
+    .then(function(response) {
+        return response;
     });
 }
 
 // get products in cart
 function getProductsInCart(id) {
-    return $.ajax({
-        type: "POST",
-        url: "data.php",
-        data: { function: "getproductcart", id: id },
-        success: function(response) {
-            return response;
-        }
+    return fetch('data.php', {
+        method: 'POST',
+        data: { function: "getproductcart", id: id }
+    })
+    .then(function(response) {
+        return response;
     });
 }
 
