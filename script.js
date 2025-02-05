@@ -6,40 +6,40 @@ const login = document.getElementById('login');
 buttons.forEach(button => {
     console.log(window.location.href);
     console.log(button.getAttribute('href'));
-    if(button.getAttribute('href') == window.location.href.split("/")[window.location.href.split("/").length - 1].split("?")[0]) {
+    if (button.getAttribute('href') == window.location.href.split("/")[window.location.href.split("/").length - 1].split("?")[0]) {
         button.style.textDecoration = 'underline';
     }
 });
 
 // set search value to url search value
-search.addEventListener('change', function() {
+search.addEventListener('change', function () {
     console.log(search.value);
     window.location.href = 'search.html?search=' + search.value;
 });
 
 // change login text to logout if user is logged in and vice versa
-if(sessionStorage.getItem("id")) {
+if (sessionStorage.getItem("id")) {
     login.innerHTML = 'Logout';
 } else {
     login.innerHTML = 'Login';
 }
 
 // show products that match the search value
-if(window.location.href.split("/")[window.location.href.split("/").length - 1].split("?")[0] == 'search.html') {
+if (window.location.href.split("/")[window.location.href.split("/").length - 1].split("?")[0] == 'search.html') {
     try {
         search.value = window.location.href.split("?")[1].split("=")[1];
-    } catch(e) {}
+    } catch (e) { }
 
     $.ajax({
         type: "POST",
         url: "data.php",
         data: { function: "getproducts" },
-        success: function(response) {
+        success: function (response) {
             let products = JSON.parse(response);
             let searchresults = search.value;
 
-            for(let i = 0; i < products.length; i++) {
-                if(products[i].name.toLowerCase().includes(search.value.toLowerCase())) {
+            for (let i = 0; i < products.length; i++) {
+                if (products[i].name.toLowerCase().includes(search.value.toLowerCase())) {
                     let product = document.createElement('div');
                     product.classList.add('productcard');
                     let img = document.createElement('img');
@@ -50,8 +50,8 @@ if(window.location.href.split("/")[window.location.href.split("/").length - 1].s
                     price.innerHTML = "€" + products[i].price / 100;
                     let button = document.createElement('button');
                     button.innerHTML = 'Add to cart';
-                    button.addEventListener('click', function() {
-                        if(!sessionStorage.getItem("id")) {
+                    button.addEventListener('click', function () {
+                        if (!sessionStorage.getItem("id")) {
                             alert("You need to be logged in to add products to your cart.");
                             return;
                         }
@@ -59,7 +59,7 @@ if(window.location.href.split("/")[window.location.href.split("/").length - 1].s
                             type: "POST",
                             url: "data.php",
                             data: { function: "addtocart", id: products[i].id, userid: sessionStorage.getItem("id") },
-                            success: function(response) {
+                            success: function (response) {
                                 console.log(response);
                             }
                         });
@@ -77,7 +77,7 @@ if(window.location.href.split("/")[window.location.href.split("/").length - 1].s
 }
 
 // admin accessability
-document.body.onkeydown = function(e) {
+document.body.onkeydown = function (e) {
     if (e.key == "Escape") {
         let admin = document.createElement('input');
         let div = document.createElement('div');
@@ -85,8 +85,8 @@ document.body.onkeydown = function(e) {
         document.body.appendChild(div);
         console.log("admin");
 
-        admin.addEventListener('change', function() {
-            if(admin.value == 'admin123') {
+        admin.addEventListener('change', function () {
+            if (admin.value == 'admin123') {
                 window.location.href = "admin.php";
             }
         });
@@ -96,7 +96,7 @@ const cssvariables = document.querySelector(':root');
 const colortheme = document.getElementById('backgroundtheme');
 
 // set color theme
-if(sessionStorage.getItem("theme") == "dark") {
+if (sessionStorage.getItem("theme") == "dark") {
     colortheme.value = "dark";
     cssvariables.style.setProperty('--accent_color', 'white');
     cssvariables.style.setProperty('--background_color', 'black');
@@ -107,8 +107,8 @@ if(sessionStorage.getItem("theme") == "dark") {
 }
 
 // change color theme
-colortheme.addEventListener('change', function() {
-    if(colortheme.value == 'dark') {
+colortheme.addEventListener('change', function () {
+    if (colortheme.value == 'dark') {
         cssvariables.style.setProperty('--accent_color', 'white');
         cssvariables.style.setProperty('--background_color', 'black');
         sessionStorage.setItem("theme", "dark");
@@ -129,63 +129,59 @@ function addProduct() {
         method: 'POST',
         data: { function: "addproduct", name: name, price: price, image: image, userid: sessionStorage.getItem("id"), description, description }
     })
-    .then(function(response) {
-        return response;
-    });
+        .then(function (response) {
+            return response;
+        });
 }
 
 // change permission of a user
-function changePermission(id) {
-    return fetch('data.php', {
+async function changePermission(id) {
+    const response = await fetch('data.php', {
         method: 'POST',
         data: { function: "changepermission", id: id }
-    })
-    .then(function(response) {
-        return response;
     });
+    return response;
 }
 
 // remove product from database
-function removeProduct(id) {
-    return fetch('data.php', {
+async function removeProduct(id) {
+    const response = await fetch('data.php', {
         method: 'POST',
         data: { function: "removeproduct", id: id }
-    })
-    .then(function(response) {
-        return response;
     });
+    return response;
 }
 
 // remove user from database
-function removeUser(id) {
-    return fetch('data.php', {
+async function removeUser(id) {
+    const response = await fetch('data.php', {
         method: 'POST',
         data: { function: "removeuser", id: id }
-    })
-    .then(function(response) {
-        return response;
     });
+    return response;
 }
 
 // get products in cart
-function getProductsInCart(id) {
-    return fetch('data.php', {
+async function getProductsInCart(id) {
+    fetch('data.php', {
         method: 'POST',
         data: { function: "getproductcart", id: id }
-    })
-    .then(function(response) {
-        return response;
+    }).then(function (response) {
+        console.log(response);
+        const data = response.json();
+        console.log(data);
+        return data;
     });
 }
 
 // show cart
 let cart = document.getElementById('cart');
-cart.addEventListener('click', function() {
-    if(!sessionStorage.getItem("id")) {
+cart.addEventListener('click', function () {
+    if (!sessionStorage.getItem("id")) {
         alert("You need to be logged in to view your cart.");
         return;
     }
-    if(document.getElementsByTagName('aside')[0].style.display == 'flex') {
+    if (document.getElementsByTagName('aside')[0].style.display == 'flex') {
         document.getElementsByTagName('aside')[0].style.display = 'none';
         document.getElementById('container').style.width = '100%';
         return;
@@ -197,8 +193,8 @@ cart.addEventListener('click', function() {
 });
 
 // login and logout
-login.addEventListener('click', function() {
-    if(sessionStorage.getItem("id")) {
+login.addEventListener('click', function () {
+    if (sessionStorage.getItem("id")) {
         sessionStorage.removeItem("id");
         login.innerHTML = 'Login';
         document.getElementsByTagName('aside')[0].style.display = 'none';
@@ -225,29 +221,29 @@ login.addEventListener('click', function() {
     document.getElementsByTagName('aside')[0].innerHTML = '';
     document.getElementsByTagName('aside')[0].append(loginform);
     document.getElementById('container').style.width = '75%';
-    register.addEventListener('click', function() {
+    register.addEventListener('click', function () {
         fetch('data.php', {
             method: 'POST',
             data: { function: "register", username: username.value, password: password.value },
         })
-        .then(function(response) {
-            console.log(response);
-        });
+            .then(function (response) {
+                console.log(response);
+            });
     });
-    submit.addEventListener('click', function() {
+    submit.addEventListener('click', function () {
         fetch('data.php', {
             method: 'POST',
             data: { function: "login", username: username.value, password: password.value },
         })
-        .then(function(response) {
-            if(response != "false") {
-                sessionStorage.setItem("id", response);
-                login.innerHTML = 'Logout';
-                document.getElementsByTagName('aside')[0].style.display = 'none';
-                document.getElementById('container').style.width = '100%';
-            } else {
-                alert("Username or password is incorrect.");
-            }
-        });
+            .then(function (response) {
+                if (response != "false") {
+                    sessionStorage.setItem("id", response);
+                    login.innerHTML = 'Logout';
+                    document.getElementsByTagName('aside')[0].style.display = 'none';
+                    document.getElementById('container').style.width = '100%';
+                } else {
+                    alert("Username or password is incorrect.");
+                }
+            });
     });
 });

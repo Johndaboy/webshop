@@ -6,8 +6,8 @@ switch ($_POST["function"]) {
     case "getProducts":
         echo json_encode(getProducts($pdo));
         break;
-    case "getCart":
-        echo json_encode(getCart($pdo));
+    case "getproductcart":
+        echo json_encode(getCart($pdo, $_POST['id']));
         break;
     case "getUsers":
         echo json_encode(getUsers($pdo));
@@ -41,18 +41,11 @@ function getProducts($pdo)
     return $products;
 }
 
-function getCart($pdo)
+function getCart($pdo, $id)
 {
-    $sql = "SELECT * FROM cart";
-    $result = $pdo->query($sql);
-
-    $cart = array();
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $cart[] = $row;
-        }
-    }
-    $pdo->close();
+    $stmt = $pdo->prepare("SELECT * FROM cart WHERE user_id=:id");
+    $stmt->bindParam(":id", $id);
+    $cart = $stmt->fetchAll();
     return $cart;
 }
 

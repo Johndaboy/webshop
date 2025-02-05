@@ -19,3 +19,17 @@ CREATE TABLE products (
     price DECIMAL(10, 2) NOT NULL,
     description TEXT NOT NULL
 );
+
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE cart (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
