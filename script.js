@@ -90,6 +90,7 @@ function applyTheme(theme) {
     sessionStorage.setItem("theme", theme);
     cssvariables.style.setProperty('--accent_color', theme === "dark" ? 'white' : 'black');
     cssvariables.style.setProperty('--background_color', theme === "dark" ? 'black' : 'white');
+    colortheme.value = theme === "dark" ? 'dark' : 'light';
 }
 
 applyTheme(sessionStorage.getItem("theme") || "light");
