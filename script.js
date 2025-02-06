@@ -73,7 +73,7 @@ if (window.location.pathname.includes('search.html')) {
 
 // ✅ Admin access with secret input
 document.body.addEventListener('keydown', (e) => {
-    if (e.key === "Escape" && !window.location.pathname.includes('data.php')) {
+    if (e.key === "Escape" && !window.location.pathname.includes('admin.php')) {
         const adminInput = document.createElement('input');
         document.body.appendChild(adminInput);
         adminInput.focus();
